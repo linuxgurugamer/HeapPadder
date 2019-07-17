@@ -29,7 +29,7 @@
 
 # 2:PROJNAME, PROJFILE, VERSIONFILE, PLUGINSFOLDER
 2c: /unsafe
-2:HeapPadder,HeapPadder/HeapPadder.csproj,HeapPadder.version,GameData/HeapPadder/Plugins
+2:HeapPadder,Source/HeapPadder.csproj,HeapPadder.version,GameData/HeapPadder/Plugins
 
 # 3:SOURCEFILE, DESTDIR
 3:HeapPadder.version,GameData/HeapPadder
