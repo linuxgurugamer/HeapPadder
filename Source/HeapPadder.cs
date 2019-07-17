@@ -9,8 +9,9 @@ namespace HeapPadder
     [KSPAddon(KSPAddon.Startup.Instantly, false)]
     public class HeapPadder : MonoBehaviour
     {
-        static HeapPadder instance = null;
-        PadHeap padHeap;
+         internal static HeapPadder instance = null;
+        internal PadHeap padHeap;
+
         public void Awake()
         {
             if (instance != null)
@@ -23,6 +24,7 @@ namespace HeapPadder
             instance = this;
             padHeap = new PadHeap();
         }
+
         void Start()
         {
             padHeap.Pad();

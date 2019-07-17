@@ -15,7 +15,7 @@ namespace HeapPadder
             DETAIL = 4,
             TRACE = 5
         };
-        static string PREFIX = "BurstAtomicThrustModule: ";
+        static string PREFIX = "HeapPadder: ";
 
         public static void setTitle(string t)
         {

@@ -20,7 +20,7 @@ If the default settings aren't working well for you, try the following steps:
 	c. This is the amount of RAM you can use for your padheap total size (in MegaByte 4GB=4096MB).  
 	d.  Always have some Ram to spare of course. 
 
-
+The mod has a default config file, called:  default_heappad.cfg.  This is needed only if there isn't a config file present, the config file is padheap.cfg.  If the config file is not present, then the default_heappad.cfg is copied to heappad.cfg.  This done so that any updates to the mod (highly  unlikely) will not overwrite any local changes to the config file
 
 The code is released under the MIT license (see https://github.com/linuxgurugamer/heapPadder/blob/master/Graph.cs).
 

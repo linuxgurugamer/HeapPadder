@@ -1,2 +1,7 @@
 0.0.1
 	First release
+0.0.1.1
+	Fixed config file
+
+0.0.1.2
+	Removed dependency check for toolbar

@@ -52,6 +52,7 @@ namespace HeapPadder
     class PadHeap
     {
         const String configFilename = "GameData/HeapPadder/PluginData/padheap.cfg";
+        const String defaultConfigFilename = "GameData/HeapPadder/PluginData/default_padheap.cfg";
 
         Item8 head8 = null;
         Item16 head16 = null;
@@ -63,14 +64,22 @@ namespace HeapPadder
         int[] counts = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         object[][] heads = new object[][] { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null };
 
+        public void Report()
+        {
+            long curMem = GC.GetTotalMemory(false);
+            Log.Info("HeapAdder Report, scene: " + HighLogic.LoadedScene.ToString() + ", memory = " + (curMem / 1024) + " KB");
+        }
+
         public void Pad()
         {
             Log.Info("HeapPadder.Pad");
             try
             {
                 UpdateFromConfig();
-
+                
+                Log.Info("The highest generation is " + GC.MaxGeneration);
                 long curMem = GC.GetTotalMemory(false);
+                long startMem = curMem;
                 Log.Info("Pad started, memory = "+(curMem / 1024)+" KB");
 
 
@@ -82,6 +91,7 @@ namespace HeapPadder
 
                 GC.Collect();
                 curMem = GC.GetTotalMemory(false);
+                long minMem = curMem;
                 Log.Info("After discard and collect, memory = "+(curMem / 1024)+" KB");
 
                 // Do the small sizes with custom classes
@@ -99,6 +109,9 @@ namespace HeapPadder
                 GC.Collect();
                 curMem = GC.GetTotalMemory(false);
                 Log.Info("After final collect, memory = "+(curMem / 1024)+" KB");
+                ScreenMessages.PostScreenMessage("HeapPadder, initial mem: " +  ((int)startMem/1024).ToString("F0") +
+                    ", minMem: " + ((int)minMem/1024).ToString("F0") + ", final mem: " + ((int)curMem/1024).ToString("F0"), 10f, ScreenMessageStyle.UPPER_CENTER);
+
             }
             catch (Exception e)
             {
@@ -115,7 +128,17 @@ namespace HeapPadder
             }
 
             int totalWeight = 0;
-
+            if (!File.Exists(configFilename))
+            {
+                Log.Info("No config file, copying default");
+                ScreenMessages.PostScreenMessage("HeapPadder, no config file, using defaults", 10f, ScreenMessageStyle.UPPER_CENTER);
+                if (File.Exists(defaultConfigFilename))
+                {
+                    Log.Info("Copying: " + defaultConfigFilename + "  to: " + configFilename);
+                    String[] lines = File.ReadAllLines(defaultConfigFilename);
+                    File.WriteAllLines(configFilename, lines);
+                }
+            }
             if (File.Exists(configFilename))
             {
                 Log.Info("Found: " + configFilename);
@@ -124,25 +147,23 @@ namespace HeapPadder
 
                 for (int i = 0; i < weights.Length; i++)
                 {
-                    if (lines[i].Substring(0, 1) != "#")
+                    line = lines[i].Split(':');
+                    if (line.Length == 2)
                     {
-                        line = lines[i].Split(':');
-                        if (line.Length == 2)
-                        {
-                            String val = line[1].Trim();
-                            ReadInt32(val, ref weights[i]);
-                            totalWeight += weights[i];
-                        }
-                        else
-                        {
-                            Log.Info("Ignoring invalid line in padheap.cfg: '" + lines[i] + "'");
-                        }
+                        String val = line[1].Trim();
+                        ReadInt32(val, ref weights[i]);
+                        totalWeight += weights[i];
+                    }
+                    else
+                    {
+                        Log.Info("Ignoring invalid line in padheap.cfg: '" + lines[i] + "'");
                     }
                 }
 
                 int sizeMegs = 0;
                 line = lines[weights.Length].Split(':');
                 ReadInt32(line[1].Trim(), ref sizeMegs);
+                Log.Info("totalPages: " + sizeMegs * 256 + ", totalWeight; " + totalWeight);
                 if (sizeMegs > 0)
                 {
                     int totalPages = sizeMegs * 256;    // 256 4k pages per meg
@@ -160,8 +181,6 @@ namespace HeapPadder
         void Pad8()
         {
             long count = counts[0];
-            Log.Info("Pad(8): "+count);
-
 
             long lastMem = GC.GetTotalMemory(false);
             Item8 temp = null;
@@ -193,7 +212,6 @@ namespace HeapPadder
         void Pad16()
         {
             long count = counts[1];
-            Log.Info("Pad(16): "+count);
 
             long lastMem = GC.GetTotalMemory(false);
             Item16 temp = null;
@@ -224,9 +242,7 @@ namespace HeapPadder
 
         void Pad24()
         {
-            long count = counts[2];
-            Log.Info("Pad(24): "+count);
-            
+            long count = counts[2];            
 
             long lastMem = GC.GetTotalMemory(false);
             Item24 temp = null;
@@ -260,8 +276,6 @@ namespace HeapPadder
             int bytes = lengths[index];
             int refCount = (bytes - 24) / 8;
             long count = counts[index];
-
-            Log.Info("PadArray("+bytes+"): "+count);
 
             long lastMem = GC.GetTotalMemory(false);
             object[] temp = null;
