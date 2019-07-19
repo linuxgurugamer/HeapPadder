@@ -58,6 +58,7 @@
       <DependentUpon>AssemblyVersion.tt</DependentUpon>
     </Compile>
     <Compile Include="HeapPadder.cs" />
+    <Compile Include="InstallChecker.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="PadHeap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

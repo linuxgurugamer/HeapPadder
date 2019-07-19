@@ -8,3 +8,9 @@
 	
 0.0.1.3
 	Removed commented lines from default_padheap.cfg
+
+0.0.1.4
+	Added InstallChecker
+	Added default file initialization to the UpdateFromConfig() in case the original file is missing
+	Updated message when invalid line found in config file
+	Fixed .version file with correct name

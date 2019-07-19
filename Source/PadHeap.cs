@@ -54,6 +54,34 @@ namespace HeapPadder
         const String configFilename = "GameData/HeapPadder/PluginData/padheap.cfg";
         const String defaultConfigFilename = "GameData/HeapPadder/PluginData/default_padheap.cfg";
 
+        string[] defaultFileData =
+        {
+            "8 : 1",
+            "16: 1",
+            "24: 1",
+            "32: 1",
+            "40: 1",
+            "48: 1",
+            "64: 1",
+            "80: 1",
+            "96: 1",
+            "112: 1",
+            "144: 1",
+            "176: 1",
+            "208: 1",
+            "240: 1",
+            "296: 1",
+            "352: 1",
+            "432: 1",
+            "664: 0",
+            "800: 0",
+            "1008: 0",
+            "1344: 0",
+            "2032: 0",
+            "total: 1024"
+
+        };
+
         Item8 head8 = null;
         Item16 head16 = null;
         Item24 head24 = null;
@@ -76,11 +104,11 @@ namespace HeapPadder
             try
             {
                 UpdateFromConfig();
-                
+
                 Log.Info("The highest generation is " + GC.MaxGeneration);
                 long curMem = GC.GetTotalMemory(false);
                 long startMem = curMem;
-                Log.Info("Pad started, memory = "+(curMem / 1024)+" KB");
+                Log.Info("Pad started, memory = " + (curMem / 1024) + " KB");
 
 
                 head8 = null;
@@ -92,7 +120,7 @@ namespace HeapPadder
                 GC.Collect();
                 curMem = GC.GetTotalMemory(false);
                 long minMem = curMem;
-                Log.Info("After discard and collect, memory = "+(curMem / 1024)+" KB");
+                Log.Info("After discard and collect, memory = " + (curMem / 1024) + " KB");
 
                 // Do the small sizes with custom classes
                 Pad8();
@@ -104,13 +132,13 @@ namespace HeapPadder
                     PadArray(i);
 
                 curMem = GC.GetTotalMemory(false);
-                Log.Info("After padding, memory = "+(curMem / 1024)+" KB");
+                Log.Info("After padding, memory = " + (curMem / 1024) + " KB");
 
                 GC.Collect();
                 curMem = GC.GetTotalMemory(false);
-                Log.Info("After final collect, memory = "+(curMem / 1024)+" KB");
-                ScreenMessages.PostScreenMessage("HeapPadder, initial mem: " +  ((int)startMem/1024).ToString("F0") +
-                    ", minMem: " + ((int)minMem/1024).ToString("F0") + ", final mem: " + ((int)curMem/1024).ToString("F0"), 10f, ScreenMessageStyle.UPPER_CENTER);
+                Log.Info("After final collect, memory = " + (curMem / 1024) + " KB");
+                ScreenMessages.PostScreenMessage("HeapPadder, initial mem: " + ((int)startMem / 1024).ToString("F0") +
+                    ", minMem: " + ((int)minMem / 1024).ToString("F0") + ", final mem: " + ((int)curMem / 1024).ToString("F0"), 10f, ScreenMessageStyle.UPPER_CENTER);
 
             }
             catch (Exception e)
@@ -138,6 +166,11 @@ namespace HeapPadder
                     String[] lines = File.ReadAllLines(defaultConfigFilename);
                     File.WriteAllLines(configFilename, lines);
                 }
+                else
+                {
+                    Log.Info("Default config file missing, using built-in defaults");
+                    File.WriteAllLines(configFilename, defaultFileData);
+                }
             }
             if (File.Exists(configFilename))
             {
@@ -156,7 +189,7 @@ namespace HeapPadder
                     }
                     else
                     {
-                        Log.Info("Ignoring invalid line in padheap.cfg: '" + lines[i] + "'");
+                        Log.Error("Invalid line in padheap.cfg: '" + lines[i] + "'");
                     }
                 }
 
@@ -242,7 +275,7 @@ namespace HeapPadder
 
         void Pad24()
         {
-            long count = counts[2];            
+            long count = counts[2];
 
             long lastMem = GC.GetTotalMemory(false);
             Item24 temp = null;
