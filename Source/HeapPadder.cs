@@ -27,6 +27,7 @@ namespace HeapPadder
 
         void Start()
         {
+
             padHeap.Pad();
         }
     }

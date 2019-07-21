@@ -23,7 +23,9 @@
 using System;
 using System.IO;
 //using KSP.IO;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace HeapPadder
 {
@@ -147,6 +149,15 @@ namespace HeapPadder
             }
         }
 
+        int GetMem()
+        {
+            var si = SystemInfo.systemMemorySize;
+            Log.Info("Physical RAM (bytes): " + si.ToString());
+            int m = si / 1024;
+            ScreenMessages.PostScreenMessage("HeapPadder, System Memory Size: " + m + " gig", 10f, ScreenMessageStyle.UPPER_CENTER);
+            return (int)m;
+
+        }
         void UpdateFromConfig()
         {
             for (int i = 0; i < counts.Length; i++)
@@ -159,8 +170,19 @@ namespace HeapPadder
             if (!File.Exists(configFilename))
             {
                 Log.Info("No config file, copying default");
-                ScreenMessages.PostScreenMessage("HeapPadder, no config file, using defaults", 10f, ScreenMessageStyle.UPPER_CENTER);
-                if (File.Exists(defaultConfigFilename))
+                int mem = GetMem();
+                string fname = "default_padheap.cfg";
+                if (mem <= 4)
+                    fname = "SuggestedFor_4g.cfg";
+                if (mem >4 && mem <= 8)
+                    fname = "default_padheap.cfg";
+                if (mem > 8 && mem <= 20)
+                    fname = "SuggestedFor_16g.cfg";
+                if (mem >=20)
+                    fname = "SuggestedFor_32g.cfg";
+
+                ScreenMessages.PostScreenMessage("HeapPadder, no config file, using default: " + fname, 10f, ScreenMessageStyle.UPPER_CENTER);
+                if (File.Exists(fname))
                 {
                     Log.Info("Copying: " + defaultConfigFilename + "  to: " + configFilename);
                     String[] lines = File.ReadAllLines(defaultConfigFilename);
@@ -168,7 +190,9 @@ namespace HeapPadder
                 }
                 else
                 {
-                    Log.Info("Default config file missing, using built-in defaults");
+                    string s = "Default config file: " + fname + " missing, using built-in defaults";
+                    Log.Info(s);
+                    ScreenMessages.PostScreenMessage("HeapPadder, " + s, 10f, ScreenMessageStyle.UPPER_CENTER);
                     File.WriteAllLines(configFilename, defaultFileData);
                 }
             }
@@ -177,6 +201,19 @@ namespace HeapPadder
                 Log.Info("Found: " + configFilename);
                 String[] lines = File.ReadAllLines(configFilename);
                 String[] line;
+
+                //
+                // The following is to allow comments and blank lines in the file
+                // Was easier to prefilter it rather than filter while processing
+                //
+                List<string> lineLst = new List<string>();
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (lines[i].Length == 0 || lines[i].Substring(0, 1) == "#")
+                        continue;
+                    lineLst.Add(lines[i]);
+                }
+                lines = lineLst.ToArray();
 
                 for (int i = 0; i < weights.Length; i++)
                 {

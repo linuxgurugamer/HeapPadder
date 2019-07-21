@@ -1,0 +1,31 @@
+The config file is laid out in a very specific format and order.  Any
+change will cause it to not be processed, and a default set of values
+will be used instead
+
+The file consists of the following:
+
+	Comments, identified by a pound (#) sign in the first column
+	Blank lines
+
+	Data, consisting of three columns of entries:
+
+		First column is the block size
+		Second column is a colon used to separate the data
+		Third column is the weight assigned to the block size.
+
+	Last line, with the word: total  in the first column, and a
+	colon and then a final value
+
+The block size is in bytes.  What happens is that space is added in 
+chunks of space.  The size of the chunks determines how efficient the
+space usage is.  Chunks too small will cause extra overhead, chunks too
+big will waste space.
+
+In general, I've found that only using block sizes of up to 208 seems to
+work well.
+
+The last line is the total amount of memory (in megs) to be allocated.  For
+example, 1024 would be 1024 meg, or 1 gig.
+
+The only line which will usually be changed is the last line.  Changing the
+block allocation size is an exercise best left to others.

@@ -14,3 +14,7 @@
 	Added default file initialization to the UpdateFromConfig() in case the original file is missing
 	Updated message when invalid line found in config file
 	Fixed .version file with correct name
+
+0.0.1.5
+	Added default files for 4, 16 and 32 g systems
+	Added auto-select of file based on system memory
