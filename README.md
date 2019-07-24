@@ -16,7 +16,7 @@ If the default settings aren't working well for you, try the following steps:
    or even 6144. See the next section for an example
 2. For example, if you have 16 GB:
 	a. Look at your task manager to find out ﻿how much free ram you have when the game is running. 
-	b. Do this calculation 16 Gb - ~5/6 GB from KSP - 1/2 GB Windows = 8 GB free
+	b. Do this calculation 16 Gb - ~(5 to 6 GB from KSP) - (1 to 2 GB Windows) = 8 GB free
 	c. This is the amount of RAM you can use for your padheap total size (in MegaByte 4GB=4096MB).  
 	d.  Always have some Ram to spare of course. 
 
