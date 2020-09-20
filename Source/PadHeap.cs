@@ -152,12 +152,13 @@ namespace HeapPadder
         int GetMem()
         {
             var si = SystemInfo.systemMemorySize;
-            Log.Info("Physical RAM (bytes): " + si.ToString());
+            Log.Info("Physical RAM (MB): " + si.ToString());
             int m = si / 1024;
             ScreenMessages.PostScreenMessage("HeapPadder, System Memory Size: " + m + " gig", 10f, ScreenMessageStyle.UPPER_CENTER);
-            return (int)m;
+            return m;
 
         }
+
         void UpdateFromConfig()
         {
             for (int i = 0; i < counts.Length; i++)
