@@ -55,7 +55,6 @@ namespace HeapPadder
     {
         const String configPath = "GameData/HeapPadder/PluginData/";
         const String configFilename = configPath + "padheap.cfg";
-        const String defaultConfigFilename = configPath + "default_padheap.cfg";
 
         string[] defaultFileData =
         {
@@ -185,8 +184,8 @@ namespace HeapPadder
                 ScreenMessages.PostScreenMessage("HeapPadder, no config file, using default: " + fname, 10f, ScreenMessageStyle.UPPER_CENTER);
                 if (File.Exists(fname))
                 {
-                    Log.Info("Copying: " + defaultConfigFilename + "  to: " + configFilename);
-                    String[] lines = File.ReadAllLines(defaultConfigFilename);
+                    Log.Info("Copying: " + fname + "  to: " + configFilename);
+                    String[] lines = File.ReadAllLines(fname);
                     File.WriteAllLines(configFilename, lines);
                 }
                 else
