@@ -23,3 +23,7 @@ ChangeLog
 
 0.2.0
 	Updated for KSP 1.8
+
+0.2.0.1
+	Added AssemblyFileVersion
+	Updated version file for 1.12
