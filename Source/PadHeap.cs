@@ -139,8 +139,8 @@ namespace HeapPadder
                 GC.Collect();
                 curMem = GC.GetTotalMemory(false);
                 Log.Info("After final collect, memory = " + (curMem / 1024) + " KB");
-                ScreenMessages.PostScreenMessage("HeapPadder, initial mem: " + ((int)startMem / 1024).ToString("F0") +
-                    ", minMem: " + ((int)minMem / 1024).ToString("F0") + ", final mem: " + ((int)curMem / 1024).ToString("F0"), 10f, ScreenMessageStyle.UPPER_CENTER);
+                ScreenMessages.PostScreenMessage("HeapPadder, initial mem: " + (startMem / 1024).ToString("F0") +
+                    ", minMem: " + (minMem / 1024).ToString("F0") + ", final mem: " + (curMem / 1024).ToString("F0"), 10f, ScreenMessageStyle.UPPER_CENTER);
 
             }
             catch (Exception e)
@@ -152,12 +152,13 @@ namespace HeapPadder
         int GetMem()
         {
             var si = SystemInfo.systemMemorySize;
-            Log.Info("Physical RAM (bytes): " + si.ToString());
+            Log.Info("Physical RAM (MB): " + si.ToString());
             int m = si / 1024;
             ScreenMessages.PostScreenMessage("HeapPadder, System Memory Size: " + m + " gig", 10f, ScreenMessageStyle.UPPER_CENTER);
-            return (int)m;
+            return m;
 
         }
+
         void UpdateFromConfig()
         {
             for (int i = 0; i < counts.Length; i++)
