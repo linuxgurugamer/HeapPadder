@@ -21,9 +21,13 @@ ChangeLog
 	Added default files for 4, 16 and 32 g systems
 	Added auto-select of file based on system memory
 
-0.2.0
+0.0.2
 	Updated for KSP 1.8
 
-0.2.0.1
+0.0.2.1
 	Added AssemblyFileVersion
 	Updated version file for 1.12
+
+0.0.2.2
+	Thanks to github user @lampeh for this:
+		Fixes negative values in screen message
