@@ -53,8 +53,8 @@ namespace HeapPadder
 
     class PadHeap
     {
-        const String configFilename = "GameData/HeapPadder/PluginData/padheap.cfg";
-        const String defaultConfigFilename = "GameData/HeapPadder/PluginData/default_padheap.cfg";
+        const String configPath = "GameData/HeapPadder/PluginData/";
+        const String configFilename = configPath + "padheap.cfg";
 
         string[] defaultFileData =
         {
@@ -172,21 +172,21 @@ namespace HeapPadder
             {
                 Log.Info("No config file, copying default");
                 int mem = GetMem();
-                string fname = "default_padheap.cfg";
+                string fname = configPath + "default_padheap.cfg";
                 if (mem <= 4)
-                    fname = "SuggestedFor_4g.cfg";
+                    fname = configPath + "SuggestedFor_4g.cfg";
                 if (mem >4 && mem <= 8)
-                    fname = "default_padheap.cfg";
+                    fname = configPath + "default_padheap.cfg";
                 if (mem > 8 && mem <= 20)
-                    fname = "SuggestedFor_16g.cfg";
+                    fname = configPath + "SuggestedFor_16g.cfg";
                 if (mem >=20)
-                    fname = "SuggestedFor_32g.cfg";
+                    fname = configPath + "SuggestedFor_32g.cfg";
 
                 ScreenMessages.PostScreenMessage("HeapPadder, no config file, using default: " + fname, 10f, ScreenMessageStyle.UPPER_CENTER);
                 if (File.Exists(fname))
                 {
-                    Log.Info("Copying: " + defaultConfigFilename + "  to: " + configFilename);
-                    String[] lines = File.ReadAllLines(defaultConfigFilename);
+                    Log.Info("Copying: " + fname + "  to: " + configFilename);
+                    String[] lines = File.ReadAllLines(fname);
                     File.WriteAllLines(configFilename, lines);
                 }
                 else
