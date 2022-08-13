@@ -172,16 +172,17 @@ namespace HeapPadder
             {
                 Log.Info("No config file, copying default");
                 int mem = GetMem();
-                string fname = configPath + "default_padheap.cfg";
+                string fname =  "default_padheap.cfg";
                 if (mem <= 4)
-                    fname = configPath + "SuggestedFor_4g.cfg";
+                    fname =  "SuggestedFor_4g.cfg";
                 if (mem >4 && mem <= 8)
-                    fname = configPath + "default_padheap.cfg";
+                    fname =  "default_padheap.cfg";
                 if (mem > 8 && mem <= 20)
-                    fname = configPath + "SuggestedFor_16g.cfg";
+                    fname =  "SuggestedFor_16g.cfg";
                 if (mem >=20)
-                    fname = configPath + "SuggestedFor_32g.cfg";
+                    fname =  "SuggestedFor_32g.cfg";
 
+                fname = configPath + fname;
                 ScreenMessages.PostScreenMessage("HeapPadder, no config file, using default: " + fname, 10f, ScreenMessageStyle.UPPER_CENTER);
                 if (File.Exists(fname))
                 {

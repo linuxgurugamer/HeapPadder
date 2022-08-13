@@ -31,3 +31,7 @@ ChangeLog
 0.0.2.2
 	Thanks to github user @lampeh for this:
 		Fixes negative values in screen message
+
+0.0.2.3
+	Thanks to github user @Hauke Lampe for this
+		Fixed default config files not found
