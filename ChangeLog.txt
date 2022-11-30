@@ -35,3 +35,6 @@ ChangeLog
 0.0.2.3
 	Thanks to github user @Hauke Lampe for this
 		Fixed default config files not found
+
+0.0.2.4
+	Fixed bad paths when used with new  launcher

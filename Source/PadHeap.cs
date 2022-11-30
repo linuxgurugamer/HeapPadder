@@ -53,8 +53,8 @@ namespace HeapPadder
 
     class PadHeap
     {
-        const String configPath = "GameData/HeapPadder/PluginData/";
-        const String configFilename = configPath + "padheap.cfg";
+         String configPath { get { return KSPUtil.ApplicationRootPath + "GameData/HeapPadder/PluginData/"; } }
+        String configFilename { get { return configPath + "padheap.cfg"; } }
 
         string[] defaultFileData =
         {
