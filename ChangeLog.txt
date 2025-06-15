@@ -38,3 +38,7 @@ ChangeLog
 
 0.0.2.4
 	Fixed bad paths when used with new  launcher
+
+0.0.2.5
+	Added code to disable usage in anything 1.8 or greater, not needed
+	Changed version file to use github for new version info
